@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173b56">
+  <meta name="description" content="Private, readable HEP outlines for tablet use.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>HEP outline</title>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">B</span><div><span class="brand-kicker">Bayshore field reference</span><h1>HEP outline</h1></div></div>
+    <button id="lock-button" class="header-button" type="button" hidden>Lock</button>
+  </header>
+  <main>
+    <section id="unlock-view" class="unlock-view" aria-labelledby="unlock-heading">
+      <p class="section-label">Private library</p>
+      <h2 id="unlock-heading">Open your HEP outlines</h2>
+      <p class="intro">Enter the passphrase for your encrypted program file. The page keeps decrypted outlines in memory only while it is open.</p>
+      <form id="unlock-form">
+        <label for="passphrase">Passphrase</label>
+        <div class="unlock-row"><input id="passphrase" name="passphrase" type="password" autocomplete="off" required><button type="submit">Open library</button></div>
+      </form>
+      <p id="unlock-status" class="status" role="status" aria-live="polite"></p>
+      <div class="import-block">
+        <label for="bundle-file">Use an encrypted file from this tablet</label>
+        <input id="bundle-file" type="file" accept=".json,application/json">
+        <p>The hosted version looks for an encrypted bundle beside the app. You can import an updated bundle here at any time.</p>
+      </div>
+    </section>
+
+    <section id="library-view" class="library-view" hidden aria-labelledby="library-heading">
+      <div class="library-top"><div><p class="section-label">Visit reference</p><h2 id="library-heading">Choose an outline</h2></div><button id="refresh-button" class="quiet-button" type="button">Check for update</button></div>
+      <p id="library-status" class="status" role="status" aria-live="polite"></p>
+      <div class="workspace">
+        <nav class="profile-nav" aria-label="HEP outlines"><label for="profile-search">Find initials</label><input id="profile-search" type="search" autocomplete="off" placeholder="Search initials"><div id="profile-list" class="profile-list"></div></nav>
+        <article id="outline" class="outline"><div class="empty-state"><span class="empty-rule"></span><h3>Select a client</h3><p>The exercise outline will appear here for review during the visit.</p></div></article>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
