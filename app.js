@@ -27,7 +27,9 @@ async function decryptBundle(bundle, passphrase) {
   const clear = await crypto.subtle.decrypt({name: 'AES-GCM', iv: bytesFromBase64(bundle.iv)}, key, bytesFromBase64(bundle.ciphertext));
   const data = JSON.parse(decoder.decode(clear));
   if (data.version !== 2 || !Array.isArray(data.profiles) || !data.profiles.every((profile) =>
-    typeof profile.id === 'string' && typeof profile.label === 'string' && Array.isArray(profile.sections))) {
+    typeof profile.id === 'string' && typeof profile.label === 'string' && Array.isArray(profile.sections) &&
+    (profile.firstName === undefined || typeof profile.firstName === 'string') &&
+    (profile.orderEndDate === undefined || typeof profile.orderEndDate === 'string'))) {
     throw new Error('The decrypted HEP bundle has an unexpected structure.');
   }
   return data;
@@ -90,7 +92,15 @@ function renderOutline(profile) {
     return;
   }
   const head = element('header', 'outline-head');
-  head.append(element('p', 'section-label', 'HEP reference'), element('h3', '', profile.label));
+  head.append(element('p', 'section-label', 'HEP reference'), element('h3', '', profile.firstName || profile.label));
+  const details = element('div', 'outline-details');
+  const initials = element('div', 'outline-detail');
+  initials.append(element('span', 'outline-detail-label', 'Initials'), element('strong', '', profile.label));
+  const endDate = element('div', 'outline-detail');
+  endDate.append(element('span', 'outline-detail-label', 'Procura order end'),
+    element('strong', '', profile.orderEndDate || 'Not recorded'));
+  details.append(initials, endDate);
+  head.append(details);
   if (profile.revised) head.append(element('p', '', `Source updated ${profile.revised}`));
   outline.append(head);
   for (const section of profile.sections) {
