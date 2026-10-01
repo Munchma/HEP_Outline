@@ -96,7 +96,7 @@ function renderOutline(profile) {
   const details = element('div', 'outline-details');
   const initials = element('div', 'outline-detail');
   initials.append(element('span', 'outline-detail-label', 'Initials'), element('strong', '', profile.label));
-  const endDate = element('div', 'outline-detail');
+  const endDate = element('div', 'outline-detail order-end');
   endDate.append(element('span', 'outline-detail-label', 'Procura order end'),
     element('strong', '', profile.orderEndDate || 'Not recorded'));
   details.append(initials, endDate);
